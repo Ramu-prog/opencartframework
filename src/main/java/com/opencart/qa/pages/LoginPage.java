@@ -28,7 +28,7 @@ public class LoginPage {
 	private final By registerLink = By.linkText("Register");
 
 	// 4.public page action/methods
-	@Step("getting is log page title")
+	@Step("getting is log page title.....")
 	public String getLoginpageTitle() {
 		String actTitle = eleUtil.waitForTitleIs(AppConstants.LOGIN_PAGE_TITLE, AppConstants.SHORT_TIME_OUT);
 		System.out.println("Login Page Title:" + actTitle);
