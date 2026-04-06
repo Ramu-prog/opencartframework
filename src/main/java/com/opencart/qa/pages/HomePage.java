@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.opencart.qa.utils.AppConstants;
+import com.opencart.qa.utils.ElementsUtil;
 
-import seleniumSession.ElementsUtil;
 
 public class HomePage {
 

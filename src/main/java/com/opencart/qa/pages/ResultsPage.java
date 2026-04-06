@@ -4,8 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.opencart.qa.utils.AppConstants;
-
-import seleniumSession.ElementsUtil;
+import com.opencart.qa.utils.ElementsUtil;
 
 public class ResultsPage {
 

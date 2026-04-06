@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.opencart.qa.utils.AppConstants;
+import com.opencart.qa.utils.ElementsUtil;
 
 import io.qameta.allure.Step;
-import seleniumSession.ElementsUtil;
 
 public class LoginPage {
 	// initial driver and ele util
