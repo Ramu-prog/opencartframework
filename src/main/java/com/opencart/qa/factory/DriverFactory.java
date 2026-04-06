@@ -19,6 +19,12 @@ import com.opencart.qa.exceptions.FrameworkException;
 
 public class DriverFactory {
 
+	//command
+//	mvn test -Denv="qa" or test -Denv=qa
+//	mvn clean install
+//	mvn package
+//	mvn deploy
+	
 	WebDriver driver;
 	Properties prop;
 	public static String highlight;
@@ -84,9 +90,10 @@ public class DriverFactory {
 	 *         properties(key-value pair)
 	 */
 	// mvn test -Denv="qa"
-	
+
 	public Properties intProp() {
 		FileInputStream ip = null;
+		prop = new Properties();
 
 		String envName = System.getProperty("env");
 		System.out.println("Env name is:" + envName);
@@ -137,11 +144,10 @@ public class DriverFactory {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return prop;
-		}
-		
-		
+
+	}
+
 //		try {
 //			FileInputStream ip = new FileInputStream("./src/test/Resources/config/config.properties");
 //			prop = new Properties();
@@ -154,8 +160,6 @@ public class DriverFactory {
 //		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
 //		}
-
-	
 
 	/**
 	 * takescreenshot

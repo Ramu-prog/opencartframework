@@ -21,30 +21,22 @@
 		<testng.version>7.12.0</testng.version>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-java</artifactId>
-				<version>${selenium.version}</version>
-
-			</dependency>
-			<dependency>
-				<groupId>org.testng</groupId>
-				<artifactId>testng</artifactId>
-				<version>${testng.version}</version>
-				<scope>test</scope>
-			</dependency>
-
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
+
 		<dependency>
-			<groupId>Nov2025SeleniumSessions</groupId>
-			<artifactId>Nov2025SeleniumSessions</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+
 		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+
+		</dependency>
+
 		<dependency>
 			<groupId>com.aventstack</groupId>
 			<artifactId>chaintest-testng</artifactId>
@@ -62,7 +54,11 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectj.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>5.10</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -89,7 +85,7 @@
 
 						<suiteXmlFile>
 							src/test/resources/testrunners/testng_regression.xml</suiteXmlFile>
-							
+
 						<!--<suiteXmlFile>${suiteXmlFile}</suiteXmlFile> -->
 					</suiteXmlFiles>
 
@@ -104,6 +100,7 @@
 						<artifactId>aspectjweaver</artifactId>
 						<version>${aspectj.version}</version>
 					</dependency>
+
 				</dependencies>
 
 			</plugin>
