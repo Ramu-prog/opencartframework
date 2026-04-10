@@ -10,7 +10,7 @@ public class AppConstants {
 	public static final int LONG_TIME_OUT=15;
 	
 	
-	public static final String LOGIN_PAGE_TITLE = "Account Login";
+	public static final String LOGIN_PAGE_TITLE = "Account Login11";
 	public static final String LOGIN_PAGE_URL = "route=account/login";
 	public static final String Home_PAGE_TITLE = "My Account";
     
