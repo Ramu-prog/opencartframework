@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite name="Open cart Test Sanity Suite" verbose="3" parallel="tests"
+	thread-count="3">
+
+<listeners>
+    <listener class-name="com.aventstack.chaintest.plugins.ChainTestListener" />
+    <listener class-name="com.opencart.qa.listeners.TestAllureListener" />
+    <listener class-name="com.opencart.qa.listeners.AnnotationTranformer" />
+    
+</listeners>
+
+	<test name="Login Page Test">
+		<parameter name="browser" value="chrome" />
+		<classes>
+			<class name="com.opencart.qa.tests.LoginPageTest" />
+		</classes>
+	</test>
+
+</suite>
