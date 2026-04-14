@@ -9,7 +9,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>Nov2025POMSeries</name>
-	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
 	<properties>
@@ -19,6 +18,8 @@
 		<aspectj.version>1.9.19</aspectj.version>
 		<selenium.version>4.39.0</selenium.version>
 		<testng.version>7.12.0</testng.version>
+		<!-- ✅ Default suite file — Jenkins can override this via -DsuiteXmlFile=... -->
+		<suiteXmlFile>src/test/resources/testrunners/testng_regression.xml</suiteXmlFile>
 	</properties>
 
 
@@ -28,13 +29,12 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>${selenium.version}</version>
-
 		</dependency>
+
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>${testng.version}</version>
-
 		</dependency>
 
 		<dependency>
@@ -54,12 +54,15 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectj.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>5.10</version>
 		</dependency>
+
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -67,8 +70,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>11</source>
-					<target>11</target>
+					<source>17</source>
+					<target>17</target>
 				</configuration>
 			</plugin>
 
@@ -82,10 +85,8 @@
 					<reuseForks>true</reuseForks>
 
 					<suiteXmlFiles>
-
-					<!-- 	<suiteXmlFile>src/test/resources/testrunners/testng_regression.xml</suiteXmlFile> -->
-
-						<suiteXmlFile>${suiteXmlFile}</suiteXmlFile> 
+						<!-- ✅ Uses default from properties, or overridden by Jenkins -DsuiteXmlFile=... -->
+						<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
 					</suiteXmlFiles>
 
 					<argLine>
@@ -99,7 +100,6 @@
 						<artifactId>aspectjweaver</artifactId>
 						<version>${aspectj.version}</version>
 					</dependency>
-
 				</dependencies>
 
 			</plugin>
