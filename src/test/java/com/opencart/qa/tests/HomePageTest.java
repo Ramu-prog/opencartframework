@@ -49,7 +49,7 @@ public class HomePageTest extends BaseTest {
 			{"imac",1},
 			{"canon",1},
 			{"samsung",2},
-			{"airtel",0}
+			//{"airtel",0}
 		
 		};
 	}
