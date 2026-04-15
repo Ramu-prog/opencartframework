@@ -44,13 +44,13 @@ pipeline
         stage('Publish Allure Reports') {
             steps {
                 script {
-                    allure([
+                    allure tool: 'allure', [
                         includeProperties: false,
                         jdk: '',
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
                         results: [[path: 'allure-results']]
-                    ])
+                    ]
                 }
             }
         }
