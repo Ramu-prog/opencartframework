@@ -1,21 +1,21 @@
-pipeline 
+pipeline
 {
     agent any
-    
+
     tools{
         maven 'maven'
         }
 
-    stages 
+    stages
     {
-        stage('Build') 
+        stage('Build')
         {
             steps
             {
                  git 'https://github.com/jglick/simple-maven-project-with-tests.git'
                  bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
-            post 
+            post
             {
                 success
                 {
@@ -24,55 +24,55 @@ pipeline
                 }
             }
         }
-        
+
         stage("Deploy to QA"){
             steps{
                 echo("deploy to qa done")
             }
         }
-        
+
         stage('Regression Automation Tests') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     cleanWs()
-                    git branch: 'master', url: 'https://github.com/Ramu-prog/opencartframework.git'            
+                    git branch: 'master', url: 'https://github.com/Ramu-prog/opencartframework.git'
                     bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml -Denv=qa"
                 }
             }
         }
 
         stage('Publish Allure Reports') {
-           steps {
+            steps {
                 script {
                     allure([
                         includeProperties: false,
                         jdk: '',
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
-                        results: [[path: '/allure-results']]
+                        results: [[path: 'target/allure-results']]  // ✅ Fixed path
                     ])
                 }
             }
         }
-        
+
         stage('Publish ChainTest HTML Report'){
             steps{
-                     publishHTML([allowMissing: false,
-                                  alwaysLinkToLastBuild: false, 
-                                  keepAll: true, 
-                                  reportDir: 'target/chaintest', 
-                                  reportFiles: 'Index.html', 
-                                  reportName: 'HTML Regression ChainTest Report', 
-                                  reportTitles: ''])
+                publishHTML([allowMissing: true,          // ✅ true - won't fail if missing
+                              alwaysLinkToLastBuild: true,
+                              keepAll: true,
+                              reportDir: 'target/chaintest',
+                              reportFiles: 'index.html',  // ✅ lowercase index.html
+                              reportName: 'HTML Regression ChainTest Report',
+                              reportTitles: ''])
             }
         }
-        
+
         stage("Deploy to Stage"){
             steps{
                 echo("deploy to Stage")
             }
         }
-        
+
         stage('Sanity Automation Test on Stage') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -82,19 +82,19 @@ pipeline
                 }
             }
         }
-        
+
         stage('Publish sanity ChainTest Report'){
             steps{
-                     publishHTML([allowMissing: false,
-                                  alwaysLinkToLastBuild: false, 
-                                  keepAll: true, 
-                                  reportDir: 'target/chaintest', 
-                                  reportFiles: 'Index.html', 
-                                  reportName: 'HTML Sanity ChainTest Report', 
-                                  reportTitles: ''])
+                publishHTML([allowMissing: true,          // ✅ true - won't fail if missing
+                              alwaysLinkToLastBuild: true,
+                              keepAll: true,
+                              reportDir: 'target/chaintest',
+                              reportFiles: 'index.html',  // ✅ lowercase index.html
+                              reportName: 'HTML Sanity ChainTest Report',
+                              reportTitles: ''])
             }
         }
-        
+
         stage("Deploy to PROD"){
             steps{
                 echo("deploy to PROD")
