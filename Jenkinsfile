@@ -1,115 +1,77 @@
-pipeline
-{
+pipeline {
     agent any
 
-    tools{
+    tools {
         maven 'maven'
     }
 
-    stages
-    {
-        stage('Build')
-        {
-            steps
-            {
+    stages {
+
+        stage('Checkout Code') {
+            steps {
                 git branch: 'master', url: 'https://github.com/Ramu-prog/opencartframework'
-                bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
-            post
-            {
-                success
-                {
+        }
+
+        stage('Build') {
+            steps {
+                bat "mvn clean package -Dmaven.test.failure.ignore=true"
+            }
+            post {
+                success {
                     junit '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
                 }
             }
         }
 
-        stage("Deploy to QA"){
-            steps{
-                echo("deploy to qa done")
-            }
-        }
-
-        stage('Regression Automation Tests') {
+        stage('Regression Test (QA)') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    cleanWs()
-                    git branch: 'master', url: 'https://github.com/Ramu-prog/opencartframework'
-                    bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml -Denv=qa"
+                    bat "mvn test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml -Denv=qa"
                 }
             }
         }
 
-        stage('Publish Allure Reports') {
+        stage('Publish Allure Report') {
             steps {
-                script {
-                    allure tool: 'allure', [
-                        includeProperties: false,
-                        jdk: '',
-                        properties: [],
-                        reportBuildPolicy: 'ALWAYS',
-                        results: [[path: 'allure-results']]
-                    ]
-                }
+                allure tool: 'allure', [
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'allure-results']]
+                ]
             }
         }
 
-        stage('Publish ChainTest HTML Report'){
-            steps{
-                publishHTML([allowMissing: false,
-                             alwaysLinkToLastBuild: false,
-                             keepAll: true,
-                             reportDir: 'target/chaintest',
-                             reportFiles: 'Index.html',
-                             reportName: 'HTML Regression ChainTest Report',
-                             reportTitles: ''])
+        stage('Publish ChainTest Report') {
+            steps {
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'target/chaintest',
+                    reportFiles: 'Index.html',
+                    reportName: 'ChainTest Report'
+                ])
             }
         }
 
-        stage("Deploy to Stage"){
-            steps{
-                echo("deploy to Stage")
-            }
-        }
-
-        stage('Sanity Automation Test on Stage') {
+        stage('Sanity Test (Stage)') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    cleanWs()
-                    git branch: 'master', url: 'https://github.com/Ramu-prog/opencartframework'
-                    bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml -Denv=stage"
+                    bat "mvn test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml -Denv=stage"
                 }
             }
         }
 
-        stage('Publish sanity ChainTest Report'){
-            steps{
-                publishHTML([allowMissing: false,
-                             alwaysLinkToLastBuild: false,
-                             keepAll: true,
-                             reportDir: 'target/chaintest',
-                             reportFiles: 'Index.html',
-                             reportName: 'HTML Sanity ChainTest Report',
-                             reportTitles: ''])
-            }
-        }
-
-        stage("Deploy to PROD"){
-            steps{
-                echo("deploy to PROD")
-            }
-        }
-
-        stage('Sanity Automation Test on PROD') {
+        stage('Sanity Test (Prod)') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    cleanWs()
-                    git branch: 'master', url: 'https://github.com/Ramu-prog/opencartframework'
-                    bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml -Denv=prod"
+                    bat "mvn test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml -Denv=prod"
                 }
             }
         }
-
     }
 }
