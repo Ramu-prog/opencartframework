@@ -4,7 +4,6 @@ pipeline
 
     tools{
         maven 'maven'
-        allure 'allure'
         }
 
     stages
