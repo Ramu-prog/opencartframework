@@ -4,7 +4,7 @@ pipeline
 
     tools{
         maven 'maven'
-        }
+    }
 
     stages
     {
@@ -41,6 +41,8 @@ pipeline
             }
         }
 
+        // ALLURE STAGE DISABLED - Will re-enable after tool configuration fix
+        /*
         stage('Publish Allure Reports') {
             steps {
                 script {
@@ -49,19 +51,20 @@ pipeline
                         jdk: '',
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
-                        results: [[path: 'target/allure-results']]  // ✅ Fixed path
+                        results: [[path: 'target/allure-results']]
                     ])
                 }
             }
         }
+        */
 
         stage('Publish ChainTest HTML Report'){
             steps{
-                publishHTML([allowMissing: true,          // ✅ true - won't fail if missing
+                publishHTML([allowMissing: true,
                               alwaysLinkToLastBuild: true,
                               keepAll: true,
                               reportDir: 'target/chaintest',
-                              reportFiles: 'index.html',  // ✅ lowercase index.html
+                              reportFiles: 'index.html',
                               reportName: 'HTML Regression ChainTest Report',
                               reportTitles: ''])
             }
@@ -85,11 +88,11 @@ pipeline
 
         stage('Publish sanity ChainTest Report'){
             steps{
-                publishHTML([allowMissing: true,          // ✅ true - won't fail if missing
+                publishHTML([allowMissing: true,
                               alwaysLinkToLastBuild: true,
                               keepAll: true,
                               reportDir: 'target/chaintest',
-                              reportFiles: 'index.html',  // ✅ lowercase index.html
+                              reportFiles: 'index.html',
                               reportName: 'HTML Sanity ChainTest Report',
                               reportTitles: ''])
             }
