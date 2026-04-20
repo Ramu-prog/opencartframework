@@ -12,15 +12,14 @@ pipeline
         {
             steps
             {
-                 git 'https://github.com/jglick/simple-maven-project-with-tests.git'
-                 bat "mvn -Dmaven.test.failure.ignore=true clean package"
+                 git branch: 'master', url: 'https://github.com/Ramu-prog/opencartframework.git'
+                 bat "mvn clean compile"
             }
             post
             {
                 success
                 {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
+                    echo 'Build completed successfully'
                 }
             }
         }
