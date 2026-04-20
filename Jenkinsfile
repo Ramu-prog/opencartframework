@@ -41,7 +41,7 @@ pipeline
         }
 
         // ALLURE STAGE DISABLED - Will re-enable after tool configuration fix
-        /*
+        
         stage('Publish Allure Reports') {
             steps {
                 script {
@@ -55,7 +55,7 @@ pipeline
                 }
             }
         }
-        */
+        
 
         stage('Publish ChainTest HTML Report'){
             steps{
